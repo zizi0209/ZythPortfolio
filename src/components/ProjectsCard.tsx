@@ -40,19 +40,31 @@ const ProjectCards: React.FC<ProjectCardProps> = ({ value, num }) => {
           
           <div className="flex flex-wrap gap-2">
             {value.tags.map((tag: string, index: number) => {
-              const tagStyles = {
-                'Nextjs': 'bg-teal-100 text-teal-800',
-                'Freelancing': 'bg-yellow-100 text-yellow-800',
-                'Shadcn Ui': 'bg-blue-100 text-blue-800',
-                'Typescript': 'bg-red-100 text-red-800',
-                'MySQL': 'bg-orange-100 text-orange-800',
-                'Zustand': 'bg-purple-100 text-purple-800',
-                'Supabase': 'bg-emerald-100 text-emerald-800',
-                'Npx': 'bg-indigo-100 text-indigo-800',
-                'Library': 'bg-pink-100 text-pink-800',
-                'Zod': 'bg-cyan-100 text-cyan-800',
-                'React Hook Form': 'bg-violet-100 text-violet-800'
-              }[tag] || 'bg-gray-100 text-gray-800';
+              const tagStyles =
+                {
+                  Nextjs: "bg-teal-100 text-teal-800",
+                  Freelancing: "bg-yellow-100 text-yellow-800",
+                  "Shadcn Ui": "bg-blue-100 text-blue-800",
+                  Typescript: "bg-red-100 text-red-800",
+                  MySQL: "bg-orange-100 text-orange-800",
+                  Zustand: "bg-purple-100 text-purple-800",
+                  Supabase: "bg-emerald-100 text-emerald-800",
+                  Npx: "bg-indigo-100 text-indigo-800",
+                  Library: "bg-pink-100 text-pink-800",
+                  Zod: "bg-cyan-100 text-cyan-800",
+                  "React Hook Form": "bg-violet-100 text-violet-800",
+                  GSAP: "bg-lime-100 text-lime-800",
+                  "Tailwind CSS": "bg-sky-100 text-sky-800",
+                  R3F: "bg-stone-300 text-stone-800",
+                  MDX: "bg-amber-100 text-amber-800",
+                  Convex: "bg-green-100 text-green-800",
+                  MongoDB: "bg-emerald-100 text-emerald-800",
+                  Hono: "bg-orange-100 text-orange-800",
+                  Turborepo: "bg-blue-100 text-red-800",
+                  tRPC: "bg-purple-100 text-purple-800",
+                  Fumadocs: "bg-cyan-100 text-cyan-800",
+                  "Better-Auth": "bg-white-100 text-black-800",
+                }[tag] || "bg-gray-100 text-gray-800";
 
               return (
                 <span 

@@ -5,6 +5,7 @@ import {
   Twitter,
   ExternalLink,
   Github,
+  User,
 } from "lucide-react";
 import { buttonVariants } from "./ui/button";
 import Link from "next/link";
@@ -14,15 +15,20 @@ import { portfolioConfig } from "@/config/portfolio.config";
 const SocialLinks = () => {
   const links = [
     {
+      name: "Gravatar",
+      link: portfolioConfig.socialLinks.gravatar,
+      icon: <User />,
+    },
+    {
       name: "Facebook",
       link: portfolioConfig.socialLinks.facebook,
       icon: <Facebook />,
     },
-    {
-      name: "Twitter",
-      link: portfolioConfig.socialLinks.twitter,
-      icon: <Twitter />,
-    },
+    // {
+    //   name: "Twitter",
+    //   link: portfolioConfig.socialLinks.twitter,
+    //   icon: <Twitter />,
+    // },
     {
       name: "Linkedin",
       link: portfolioConfig.socialLinks.linkedin,
