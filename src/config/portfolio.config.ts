@@ -270,7 +270,7 @@ export const portfolioConfig = {
       title: "Buy Me a Coffee",
       description:
         "I use Buy Me a Coffee to connect with supporters who enjoy my creative work — from music production to web development. Contributions help me stay independent, explore new ideas, and keep building things that matter.",
-      link: "https://buymeacoffee.com/complete-your-page",
+      link: "https://buymeacoffee.com/zyth",
     },
   ],
 
