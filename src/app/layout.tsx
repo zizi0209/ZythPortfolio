@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     creator: portfolioConfig.seo.twitterHandle,
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.svg",
   },
 };
 
