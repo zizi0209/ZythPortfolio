@@ -2,13 +2,30 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 function BuyMeCoffee({ classname }: { classname?: string }) {
+  // Biến CSS để kích thước nút co giãn mượt theo viewport
+  const fluidVars = {
+    // min 3.25rem, tăng theo 7vw + 0.5rem, tối đa 9rem
+    // => realtime khi đổi kích thước màn hình
+    ["--bmw" as any]: "clamp(3.25rem, 7vw + 0.5rem, 9rem)",
+  } as React.CSSProperties;
   return (
     <>
       <a
-        href="https://buymeacoffee.com/uilayouts"
+        href="https://buymeacoffee.com/zyth"
         target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Buy me a coffee"
+        style={fluidVars}
         className={cn(
-          "border relative group w-36 mx-auto cursor-pointer h-32 grid place-content-center p-10 py-14 bg-primary  rounded-md  overflow-hidden",
+          // vị trí cố định + safe-area, không đè bố cục
+          "fixed z-[60] print:hidden pointer-events-auto",
+          "right-[calc(1rem+env(safe-area-inset-right))] bottom-[calc(1rem+env(safe-area-inset-bottom))]",
+          // kích thước FLUID theo --bmw
+          "w-[var(--bmw)] h-[calc(var(--bmw)*0.9)] max-w-[calc(100vw-3rem)]",
+          // layout & hiệu ứng
+          "group grid place-content-center overflow-hidden rounded-md border bg-primary",
+          "p-[clamp(0.25rem,1.5vw,2.5rem)] shadow-xl ring-1 ring-black/10",
+          "transition-transform motion-safe:hover:-translate-y-0.5",
           classname
         )}
       >

@@ -17,11 +17,11 @@ import ZaloIcon from "/public/icons/Zalo.png";
 
 const SocialLinks = () => {
   const links = [
-    {
-      name: "Gravatar",
-      link: portfolioConfig.socialLinks.gravatar,
-      icon: <User />,
-    },
+    // {
+    //   name: "Gravatar",
+    //   link: portfolioConfig.socialLinks.gravatar,
+    //   icon: <User />,
+    // },
     {
       name: "Zalo",
       link: portfolioConfig.socialLinks.zalo,

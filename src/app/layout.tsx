@@ -5,6 +5,9 @@ import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
 import { portfolioConfig } from "@/config/portfolio.config";
 
+import BuyMeCoffee from "@/components/buy-me-coffee";
+
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: "400",
@@ -67,6 +70,7 @@ export default function RootLayout({
           {/* NAVBAR ->  */}
           <Navbar />
           {children}
+          <BuyMeCoffee />
         </main>
       </body>
     </html>

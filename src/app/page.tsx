@@ -6,6 +6,8 @@ import DownLoadResumeBtn from "@/components/DownLoadResumeBtn";
 import FramerWrapper from "@/components/animation/FramerWrapper";
 
 import Girl from "@/components/Girl";
+import BuyMeCoffee from "@/components/buy-me-coffee";
+
 
 export default function Home() {
   return (
@@ -34,7 +36,8 @@ export default function Home() {
         </FramerWrapper>
       </section>
 
-      <GithubBtn />
+      {/* <GithubBtn /> */}
+      {/* <BuyMeCoffee/> */}
     </>
   );
 }
