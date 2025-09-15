@@ -1,7 +1,7 @@
 // components/Girl.tsx
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { CustomWiggle } from "gsap/CustomWiggle";
@@ -14,8 +14,8 @@ type GirlProps = {
   message?: string;
   autoHideMs?: number;
   bubble?: Bubble;
-  className?: string; // optional: để bạn tuỳ biến nếu cần
-  maxWidth?: number | string; // optional: default 600
+  className?: string;
+  maxWidth?: number | string; // giới hạn kích thước tối đa (mặc định 600)
 };
 
 export default function Girl({
@@ -26,10 +26,12 @@ export default function Girl({
   maxWidth = 600,
 }: GirlProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const [showSpeech, setShowSpeech] = useState(false);
+  const ctxRef = useRef<gsap.Context | null>(null);
+  const meTlRef = useRef<gsap.core.Timeline | null>(null);
+  const blinkRef = useRef<gsap.core.Timeline | null>(null);
   const timerRef = useRef<number | null>(null);
 
-  const percentage = (part: number, total: number) => (100 * part) / total;
+  const [showSpeech, setShowSpeech] = useState(false);
 
   const clearTimer = () => {
     if (timerRef.current !== null) {
@@ -49,258 +51,290 @@ export default function Girl({
     }
   }, [autoHideMs]);
 
-  const onKeyDown: React.KeyboardEventHandler<SVGSVGElement> = (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      sayHi();
-    }
-  };
+  // GSAP init (an toàn khi điều hướng qua lại): đảm bảo .me luôn nhìn thấy, rồi set up timeline
+  useLayoutEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
 
-  useEffect(() => {
-    const svgEl = svgRef.current;
-    if (!svgEl) return;
+    // Nếu vì lý do gì GSAP chưa init, bật opacity để không "mất cô gái"
+    const me = el.querySelector(".me") as SVGGElement | null;
+    if (me) me.style.opacity = "1";
 
-    const dom = {
-      face: svgEl.querySelector(".face") as Element,
-      eye: svgEl.querySelectorAll(".eye") as NodeListOf<Element>,
-      innerFace: svgEl.querySelector(".inner-face") as Element,
-      hairFront: svgEl.querySelector(".hair-front") as Element,
-      hairBack: svgEl.querySelector(".hair-back") as Element,
-      shadow: svgEl.querySelectorAll(".shadow") as NodeListOf<Element>,
-      ear: svgEl.querySelectorAll(".ear") as NodeListOf<Element>,
-      eyebrowLeft: svgEl.querySelector(".eyebrow-left") as Element,
-      eyebrowRight: svgEl.querySelector(".eyebrow-right") as Element,
-    };
+    ctxRef.current = gsap.context(() => {
+      const dom = {
+        face: el.querySelector(".face") as Element,
+        eye: el.querySelectorAll(".eye") as NodeListOf<Element>,
+        innerFace: el.querySelector(".inner-face") as Element,
+        hairFront: el.querySelector(".hair-front") as Element,
+        hairBack: el.querySelector(".hair-back") as Element,
+        shadow: el.querySelectorAll(".shadow") as NodeListOf<Element>,
+        ear: el.querySelectorAll(".ear") as NodeListOf<Element>,
+        eyebrowLeft: el.querySelector(".eyebrow-left") as Element,
+        eyebrowRight: el.querySelector(".eyebrow-right") as Element,
+      };
 
-    gsap.set(svgEl.querySelector(".bg"), { transformOrigin: "50% 50%" });
-    gsap.set(svgEl.querySelector(".ear-right"), { transformOrigin: "0% 50%" });
-    gsap.set(svgEl.querySelector(".ear-left"), { transformOrigin: "100% 50%" });
-    gsap.set(svgEl.querySelector(".me"), { opacity: 1 });
+      gsap.set(el.querySelector(".bg"), { transformOrigin: "50% 50%" });
+      gsap.set(el.querySelector(".ear-right"), { transformOrigin: "0% 50%" });
+      gsap.set(el.querySelector(".ear-left"), { transformOrigin: "100% 50%" });
+      gsap.set(el.querySelector(".me"), { opacity: 1 });
 
-    const meTl = gsap.timeline({ onComplete: addMouseEvent, delay: 1 });
-
-    meTl
-      .from(
-        svgEl.querySelector(".me"),
-        { duration: 1, yPercent: 100, ease: "elastic.out(0.5, 0.4)" },
-        0.5
-      )
-      .from(
-        svgEl.querySelectorAll(".head , .hair , .shadow"),
-        { duration: 0.9, yPercent: 20, ease: "elastic.out(0.58, 0.25)" },
-        0.6
-      )
-      .from(
-        svgEl.querySelector(".ear-right"),
-        {
-          duration: 1,
-          rotate: 40,
-          yPercent: 10,
-          ease: "elastic.out(0.5, 0.2)",
-        },
-        0.7
-      )
-      .from(
-        svgEl.querySelector(".ear-left"),
-        {
-          duration: 1,
-          rotate: -40,
-          yPercent: 10,
-          ease: "elastic.out(0.5, 0.2)",
-        },
-        0.7
-      )
-      .to(
-        svgEl.querySelector(".glasses"),
-        {
-          duration: 1,
-          keyframes: [{ yPercent: -10 }, { yPercent: 0 }],
-          ease: "elastic.out(0.5, 0.2)",
-        },
-        0.75
-      )
-      .from(
-        svgEl.querySelectorAll(".eyebrow-right , .eyebrow-left"),
-        { duration: 1, yPercent: 300, ease: "elastic.out(0.5, 0.2)" },
-        0.7
-      )
-      .to(
-        svgEl.querySelectorAll(".eye-right , .eye-left"),
-        { duration: 0.01, opacity: 1 },
-        0.85
-      )
-      .to(
-        svgEl.querySelectorAll(".eye-right-2 , .eye-left-2"),
-        { duration: 0.01, opacity: 0 },
-        0.85
-      );
-
-    const blink = gsap.timeline({ repeat: -1, repeatDelay: 5, paused: true });
-    blink
-      .to(
-        svgEl.querySelectorAll(".eye-right, .eye-left"),
-        { duration: 0.01, opacity: 0 },
-        0
-      )
-      .to(
-        svgEl.querySelectorAll(".eye-right-2, .eye-left-2"),
-        { duration: 0.01, opacity: 1 },
-        0
-      )
-      .to(
-        svgEl.querySelectorAll(".eye-right, .eye-left"),
-        { duration: 0.01, opacity: 1 },
-        0.15
-      )
-      .to(
-        svgEl.querySelectorAll(".eye-right-2 , .eye-left-2"),
-        { duration: 0.01, opacity: 0 },
-        0.15
-      );
-
-    CustomWiggle.create("myWiggle", { wiggles: 6, type: "ease-out" });
-    CustomWiggle.create("lessWiggle", { wiggles: 4, type: "ease-in-out" });
-
-    let height = 0,
-      width = 0,
-      xPosition = 0,
-      yPosition = 0,
-      storedXPosition = 0,
-      storedYPosition = 0,
-      dizzyIsPlaying = false;
-
-    const dizzy = gsap.timeline({
-      paused: true,
-      onComplete: () => {
-        dizzyIsPlaying = false;
-      },
-    });
-
-    dizzy
-      .to(dom.eye, { duration: 0.01, opacity: 0 }, 0)
-      .to(svgEl.querySelectorAll(".dizzy"), { duration: 0.01, opacity: 0.3 }, 0)
-      .to(svgEl.querySelector(".mouth"), { duration: 0.01, opacity: 0 }, 0)
-      .to(svgEl.querySelector(".oh"), { duration: 0.01, opacity: 0.85 }, 0)
-      .to(
-        svgEl.querySelectorAll(".head, .hair-back, .shadow"),
-        {
-          duration: 6,
-          rotate: 2,
-          transformOrigin: "50% 50%",
-          ease: "myWiggle",
-        },
-        0
-      )
-      .to(
-        svgEl.querySelector(".me"),
-        {
-          duration: 6,
-          rotate: -2,
-          transformOrigin: "50% 100%",
-          ease: "myWiggle",
-        },
-        0
-      )
-      .to(
-        svgEl.querySelector(".me"),
-        {
-          duration: 4,
-          scale: 0.99,
-          transformOrigin: "50% 100%",
-          ease: "lessWiggle",
-        },
-        0
-      )
-      .to(
-        svgEl.querySelector(".dizzy-1"),
-        {
-          rotate: -360,
-          duration: 1,
-          repeat: 5,
-          transformOrigin: "50% 50%",
-          ease: "none",
-        },
-        0.01
-      )
-      .to(
-        svgEl.querySelector(".dizzy-2"),
-        {
-          rotate: 360,
-          duration: 1,
-          repeat: 5,
-          transformOrigin: "50% 50%",
-          ease: "none",
-        },
-        0.01
-      )
-      .to(dom.eye, { duration: 0.01, opacity: 1 }, 4)
-      .to(svgEl.querySelectorAll(".dizzy"), { duration: 0.01, opacity: 0 }, 4)
-      .to(svgEl.querySelector(".oh"), { duration: 0.01, opacity: 0 }, 4)
-      .to(svgEl.querySelector(".mouth"), { duration: 0.01, opacity: 1 }, 4);
-
-    function updateWindowSize() {
-      height = window.innerHeight;
-      width = window.innerWidth;
-    }
-    updateWindowSize();
-    window.addEventListener("resize", updateWindowSize);
-
-    function updateScreenCoords(event: MouseEvent) {
-      if (!dizzyIsPlaying) {
-        xPosition = event.clientX;
-        yPosition = event.clientY;
-      }
-      const mvx = (event as any).movementX ?? 0;
-      if (!dizzyIsPlaying && Math.abs(mvx) > 500) {
-        dizzyIsPlaying = true;
-        dizzy.restart();
-      }
-    }
-
-    function animateFace() {
-      if (!xPosition) return;
-      if (storedXPosition === xPosition && storedYPosition === yPosition)
-        return;
-
-      const x = percentage(xPosition, width) - 50;
-      const y = percentage(yPosition, height) - 50;
-      const yHigh = percentage(yPosition, height) - 20;
-      const yLow = percentage(yPosition, height) - 80;
-
-      gsap.to(dom.face, { yPercent: yLow / 30, xPercent: x / 30 });
-      gsap.to(dom.eye, { yPercent: yHigh / 3, xPercent: x / 2 });
-      gsap.to(dom.innerFace, { yPercent: y / 6, xPercent: x / 8 });
-      gsap.to(dom.hairFront, { yPercent: yHigh / 15, xPercent: x / 22 });
-      gsap.to([dom.hairBack, ...Array.from(dom.shadow)], {
-        yPercent: (yLow / 20) * -1,
-        xPercent: (x / 20) * -1,
+      const meTl = gsap.timeline({
+        onComplete: addMouseEvent,
+        delay: 1,
       });
-      gsap.to(dom.ear, { yPercent: (y / 1.5) * -1, xPercent: (x / 10) * -1 });
-      gsap.to([dom.eyebrowLeft, dom.eyebrowRight], { yPercent: y * 2.5 });
+      meTlRef.current = meTl;
 
-      storedXPosition = xPosition;
-      storedYPosition = yPosition;
-    }
+      meTl
+        .from(
+          el.querySelector(".me"),
+          { duration: 1, yPercent: 100, ease: "elastic.out(0.5, 0.4)" },
+          0.5
+        )
+        .from(
+          el.querySelectorAll(".head , .hair , .shadow"),
+          { duration: 0.9, yPercent: 20, ease: "elastic.out(0.58, 0.25)" },
+          0.6
+        )
+        .from(
+          el.querySelector(".ear-right"),
+          {
+            duration: 1,
+            rotate: 40,
+            yPercent: 10,
+            ease: "elastic.out(0.5, 0.2)",
+          },
+          0.7
+        )
+        .from(
+          el.querySelector(".ear-left"),
+          {
+            duration: 1,
+            rotate: -40,
+            yPercent: 10,
+            ease: "elastic.out(0.5, 0.2)",
+          },
+          0.7
+        )
+        .to(
+          el.querySelector(".glasses"),
+          {
+            duration: 1,
+            keyframes: [{ yPercent: -10 }, { yPercent: 0 }],
+            ease: "elastic.out(0.5, 0.2)",
+          },
+          0.75
+        )
+        .from(
+          el.querySelectorAll(".eyebrow-right , .eyebrow-left"),
+          { duration: 1, yPercent: 300, ease: "elastic.out(0.5, 0.2)" },
+          0.7
+        )
+        .to(
+          el.querySelectorAll(".eye-right , .eye-left"),
+          { duration: 0.01, opacity: 1 },
+          0.85
+        )
+        .to(
+          el.querySelectorAll(".eye-right-2 , .eye-left-2"),
+          { duration: 0.01, opacity: 0 },
+          0.85
+        );
 
-    function addMouseEvent() {
-      const safe = window.matchMedia(
-        "(prefers-reduced-motion: no-preference)"
-      ).matches;
-      if (safe) {
-        window.addEventListener("mousemove", updateScreenCoords);
-        gsap.ticker.add(animateFace);
-        blink.play();
+      const blink = gsap.timeline({ repeat: -1, repeatDelay: 5, paused: true });
+      blinkRef.current = blink;
+      blink
+        .to(
+          el.querySelectorAll(".eye-right, .eye-left"),
+          { duration: 0.01, opacity: 0 },
+          0
+        )
+        .to(
+          el.querySelectorAll(".eye-right-2, .eye-left-2"),
+          { duration: 0.01, opacity: 1 },
+          0
+        )
+        .to(
+          el.querySelectorAll(".eye-right, .eye-left"),
+          { duration: 0.01, opacity: 1 },
+          0.15
+        )
+        .to(
+          el.querySelectorAll(".eye-right-2 , .eye-left-2"),
+          { duration: 0.01, opacity: 0 },
+          0.15
+        );
+
+      CustomWiggle.create("myWiggle", { wiggles: 6, type: "ease-out" });
+      CustomWiggle.create("lessWiggle", { wiggles: 4, type: "ease-in-out" });
+
+      let height = 0,
+        width = 0,
+        xPosition = 0,
+        yPosition = 0,
+        storedXPosition = 0,
+        storedYPosition = 0,
+        dizzyIsPlaying = false;
+
+      const dizzy = gsap.timeline({
+        paused: true,
+        onComplete: () => {
+          dizzyIsPlaying = false;
+        },
+      });
+
+      dizzy
+        .to(dom.eye, { duration: 0.01, opacity: 0 }, 0)
+        .to(el.querySelectorAll(".dizzy"), { duration: 0.01, opacity: 0.3 }, 0)
+        .to(el.querySelector(".mouth"), { duration: 0.01, opacity: 0 }, 0)
+        .to(el.querySelector(".oh"), { duration: 0.01, opacity: 0.85 }, 0)
+        .to(
+          el.querySelectorAll(".head, .hair-back, .shadow"),
+          {
+            duration: 6,
+            rotate: 2,
+            transformOrigin: "50% 50%",
+            ease: "myWiggle",
+          },
+          0
+        )
+        .to(
+          el.querySelector(".me"),
+          {
+            duration: 6,
+            rotate: -2,
+            transformOrigin: "50% 100%",
+            ease: "myWiggle",
+          },
+          0
+        )
+        .to(
+          el.querySelector(".me"),
+          {
+            duration: 4,
+            scale: 0.99,
+            transformOrigin: "50% 100%",
+            ease: "lessWiggle",
+          },
+          0
+        )
+        .to(
+          el.querySelector(".dizzy-1"),
+          {
+            rotate: -360,
+            duration: 1,
+            repeat: 5,
+            transformOrigin: "50% 50%",
+            ease: "none",
+          },
+          0.01
+        )
+        .to(
+          el.querySelector(".dizzy-2"),
+          {
+            rotate: 360,
+            duration: 1,
+            repeat: 5,
+            transformOrigin: "50% 50%",
+            ease: "none",
+          },
+          0.01
+        )
+        .to(dom.eye, { duration: 0.01, opacity: 1 }, 4)
+        .to(el.querySelectorAll(".dizzy"), { duration: 0.01, opacity: 0 }, 4)
+        .to(el.querySelector(".oh"), { duration: 0.01, opacity: 0 }, 4)
+        .to(el.querySelector(".mouth"), { duration: 0.01, opacity: 1 }, 4);
+
+      function updateWindowSize() {
+        height = window.innerHeight;
+        width = window.innerWidth;
       }
-    }
+      updateWindowSize();
+      window.addEventListener("resize", updateWindowSize);
 
+      function updateScreenCoords(event: MouseEvent) {
+        if (!dizzyIsPlaying) {
+          xPosition = event.clientX;
+          yPosition = event.clientY;
+        }
+        const mvx = (event as any).movementX ?? 0;
+        if (!dizzyIsPlaying && Math.abs(mvx) > 500) {
+          dizzyIsPlaying = true;
+          dizzy.restart();
+        }
+      }
+
+      function animateFace() {
+        if (!xPosition) return;
+        if (storedXPosition === xPosition && storedYPosition === yPosition)
+          return;
+
+        const percentage = (part: number, total: number) =>
+          (100 * part) / total;
+
+        const x = percentage(xPosition, width) - 50;
+        const y = percentage(yPosition, height) - 50;
+        const yHigh = percentage(yPosition, height) - 20;
+        const yLow = percentage(yPosition, height) - 80;
+
+        gsap.to(dom.face, { yPercent: yLow / 30, xPercent: x / 30 });
+        gsap.to(dom.eye, { yPercent: yHigh / 3, xPercent: x / 2 });
+        gsap.to(dom.innerFace, { yPercent: y / 6, xPercent: x / 8 });
+        gsap.to(dom.hairFront, { yPercent: yHigh / 15, xPercent: x / 22 });
+        gsap.to([dom.hairBack, ...Array.from(dom.shadow)], {
+          yPercent: (yLow / 20) * -1,
+          xPercent: (x / 20) * -1,
+        });
+        gsap.to(dom.ear, { yPercent: (y / 1.5) * -1, xPercent: (x / 10) * -1 });
+        gsap.to([dom.eyebrowLeft, dom.eyebrowRight], { yPercent: y * 2.5 });
+
+        storedXPosition = xPosition;
+        storedYPosition = yPosition;
+      }
+
+      function addMouseEvent() {
+        const safe = window.matchMedia(
+          "(prefers-reduced-motion: no-preference)"
+        ).matches;
+        if (safe) {
+          window.addEventListener("mousemove", updateScreenCoords);
+          gsap.ticker.add(animateFace);
+          blink.play();
+        }
+      }
+
+      // Quan sát khi SVG xuất hiện trở lại (đi trang khác quay về)
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            // đảm bảo nhìn thấy
+            const meNow = el.querySelector(".me") as SVGGElement | null;
+            if (meNow && getComputedStyle(meNow).opacity === "0")
+              meNow.style.opacity = "1";
+            // nếu muốn phát lại intro khi quay về, mở dòng dưới:
+            // meTlRef.current?.restart();
+          }
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(el);
+
+      // cleanup trong context
+      return () => {
+        io.disconnect();
+        window.removeEventListener("resize", updateWindowSize);
+        gsap.ticker.remove(animateFace);
+      };
+    }, svgRef);
+
+    // cleanup toàn cục
     return () => {
-      window.removeEventListener("resize", updateWindowSize);
-      window.removeEventListener("mousemove", updateScreenCoords);
-      gsap.ticker.remove(animateFace);
+      ctxRef.current?.revert();
+      ctxRef.current = null;
     };
   }, []);
 
-  useEffect(() => () => clearTimer(), []);
+  // cleanup timer
+  useLayoutEffect(() => () => clearTimer(), []);
 
   return (
     <>
@@ -312,28 +346,32 @@ export default function Girl({
         strokeLinecap="round"
         strokeLinejoin="round"
         className={className}
+        role="button"
+        tabIndex={0}
+        aria-label={`Chạm để cô gái nói "${message}"`}
+        onClick={sayHi}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            sayHi();
+          }
+        }}
         style={
           {
-            // Responsive theo container của bạn (w-[47%])
-            display: "block", // tránh baseline gap
-            verticalAlign: "middle", // không tụt hàng
-            width: "100%", // chiếm trọn chiều ngang container
-            maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth, // giới hạn giống bản gốc
-            height: "auto", // giữ tỉ lệ viewBox
+            // responsive & không ảnh hưởng bố cục chung
+            display: "block",
+            verticalAlign: "middle",
+            width: "100%",
+            height: "auto",
+            maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
             flexShrink: 0,
-
-            // variables ngay trên SVG như bản gốc:
+            // biến CSS ngay trên SVG như bản gốc
             ["--mars-green" as any]: "#386641",
             ["--rim-red" as any]: "#8b0000",
             ["--hair-black" as any]: "#111111",
             cursor: "pointer",
           } as React.CSSProperties
         }
-        role="button"
-        tabIndex={0}
-        aria-label={`Chạm để cô gái nói "${message}"`}
-        onClick={sayHi}
-        onKeyDown={onKeyDown}
       >
         <defs>
           <clipPath id="background-clip">
@@ -362,7 +400,6 @@ export default function Girl({
           </linearGradient>
         </defs>
 
-        {/* ...toàn bộ nội dung SVG giữ nguyên như bạn đưa... */}
         <path
           className="bg"
           d="M39 153.73s31.57 19.71 77.26 15.21 90.18-37.23 90.36-72.33-10.51-57-35.28-63-50.22 17-76.31 20-60.12-15.88-78.32 2.51S-4.88 125.2 39 153.73z"
@@ -554,7 +591,6 @@ export default function Girl({
           </g>
         </g>
 
-        {/* Bong bóng thoại ngay trong SVG */}
         {showSpeech && (
           <g
             transform={`translate(${bubble.x} ${bubble.y})`}
@@ -587,7 +623,7 @@ export default function Girl({
         )}
       </svg>
 
-      {/* Scoped styles – chỉ áp vào svg[data-girl] để không ảnh hưởng layout/element khác */}
+      {/* Scoped styles chỉ áp cho svg[data-girl] */}
       <style jsx>{`
         svg[data-girl] .bg {
           fill: #2f9e81 !important;
