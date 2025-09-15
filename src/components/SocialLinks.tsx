@@ -12,12 +12,20 @@ import Link from "next/link";
 import FramerWrapper from "./animation/FramerWrapper";
 import { portfolioConfig } from "@/config/portfolio.config";
 
+import Image from "next/image";
+import ZaloIcon from "/public/icons/Zalo.png";
+
 const SocialLinks = () => {
   const links = [
     {
       name: "Gravatar",
       link: portfolioConfig.socialLinks.gravatar,
       icon: <User />,
+    },
+    {
+      name: "Zalo",
+      link: portfolioConfig.socialLinks.zalo,
+      icon: <Image src={ZaloIcon} alt="Zalo" width={24} height={24} />,
     },
     {
       name: "Facebook",

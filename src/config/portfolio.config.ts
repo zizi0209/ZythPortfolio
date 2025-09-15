@@ -11,6 +11,7 @@ export const portfolioConfig = {
   // Social Media Links
   socialLinks: {
     gravatar: "https://gravatar.com/trantuongvy131",
+    zalo: "https://zalo.me/0333636045",
     facebook: "https://www.facebook.com/zy.zy.338189",
     // twitter: "https://twitter.com/Taquiimam14",
     linkedin: "https://www.linkedin.com/in/vy-trần-tường-719b30384/",
