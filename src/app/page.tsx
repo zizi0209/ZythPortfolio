@@ -5,6 +5,7 @@ import GithubBtn from "@/components/animation/GithubBtn";
 import DownLoadResumeBtn from "@/components/DownLoadResumeBtn";
 import FramerWrapper from "@/components/animation/FramerWrapper";
 
+import Girl from "@/components/Girl";
 
 export default function Home() {
   return (
@@ -28,7 +29,8 @@ export default function Home() {
         x={100}
       >
         {/* IMAGE  */}
-        <HeroImage />
+        {/* <HeroImage /> */}
+        <Girl message="Hi!" autoHideMs={1400} bubble={{ x: 150, y: 38 }} />
       </FramerWrapper>
 
       {/* GITHUB BUTTON  */}
