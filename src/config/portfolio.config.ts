@@ -227,6 +227,20 @@ export const portfolioConfig = {
       link: "https://rfpage.vercel.app/",
     },
     {
+      title:
+        "PV-ERP — A modern ERP platform tailored for Vietnamese businesses.",
+      description:
+        "PV-ERP is a comprehensive enterprise resource planning solution designed to unify operations, optimize workflows, and empower data-driven decisions. With a focus on seamless integration and real-time analytics, the platform helps businesses overcome fragmented management and scale sustainably in the digital age.",
+      tags: [
+        "Nextjs",
+        "Typescript",
+        "Tailwind CSS",
+        "GSAP",
+        "Shadcn Ui",
+      ],
+      link: "https://zizi0209.github.io/phuongvietit/",
+    },
+    {
       title: "Shopdolot — Soft on skin, sexy within.",
       description:
         "Shopdolot is a modern fashion e-commerce platform offering curated lingerie and loungewear for every mood and moment. With a minimal aesthetic and smooth user experience, it blends style, comfort, and confidence into every scroll.",
