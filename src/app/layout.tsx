@@ -63,11 +63,35 @@ export default function RootLayout({
       <body className={`${poppins.variable} ${rubik.variable}`}>
         <main
           className={cn(
-            "flex  relative  break-words h-dvh min-h-screen items-center justify-between pt-14 pb-4 px-40 max-md:p-4 bg-transparent max-sm:pt-20 bg-[radial-gradient(#2f7df4_1px,transparent_1px)] [background-size:16px_16px]",
-            { "bg-white": "#E6E7EB" }
+            // giữ nguyên layout hiện có
+            "relative flex h-dvh min-h-screen items-center justify-between pt-14 pb-4 px-40 max-md:p-4 max-sm:pt-20 bg-transparent"
           )}
         >
-          {/* NAVBAR ->  */}
+          {/* BG effect – không ảnh hưởng layout */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+          >
+            {/* lớp nền base */}
+            <div className="absolute inset-0 bg-[#2F9E81]" />
+            {/* lưới + mask mờ dần */}
+            <div
+              className="absolute inset-0
+        bg-[linear-gradient(to_right,#ffffff1a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff1a_1px,transparent_1px)]
+        bg-[size:20px_20px]
+        [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]
+        [-webkit-mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]
+      "
+            />
+            {/* radial overlay */}
+            <div
+              className="absolute inset-0
+        bg-[radial-gradient(125%_125%_at_50%_10%,rgba(99,102,241,0.3)_40%,rgba(15,23,42,1)_100%)]
+      "
+            />
+          </div>
+
+          {/* NAVBAR -> */}
           <Navbar />
           {children}
           <BuyMeCoffee />

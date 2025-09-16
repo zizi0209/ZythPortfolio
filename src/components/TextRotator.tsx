@@ -9,7 +9,7 @@ function TextRotator() {
         <span className="inline-flex ml-2 flex-col h-[calc(theme(fontSize.lg)*theme(lineHeight.tight))] sm:h-[calc(theme(fontSize.3xl)*theme(lineHeight.tight))] overflow-hidden">
           <ul className="block text-left font-rubik text-lg sm:text-3xl leading-tight [&_li]:block animate-text-slide">
             {portfolioConfig.skills.roles.map((role, index) => (
-              <li key={index} className="text-[#2f7df4]">
+              <li key={index} className="text-[#A94C4C]">
                 {role}
               </li>
             ))}

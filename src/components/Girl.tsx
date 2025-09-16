@@ -366,7 +366,7 @@ export default function Girl({
             maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
             flexShrink: 0,
             // biến CSS ngay trên SVG như bản gốc
-            ["--mars-green" as any]: "#386641",
+            ["--mars-green" as any]: "#A3C4D9",
             ["--rim-red" as any]: "#8b0000",
             ["--hair-black" as any]: "#111111",
             cursor: "pointer",
@@ -626,7 +626,7 @@ export default function Girl({
       {/* Scoped styles chỉ áp cho svg[data-girl] */}
       <style jsx>{`
         svg[data-girl] .bg {
-          fill: #2f9e81 !important;
+          fill: var(--mars-green) !important;
         }
         svg[data-girl] .hair,
         svg[data-girl] .hair-back,

@@ -8,21 +8,22 @@
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
-    --card: 0 0% 100%;
+    --card: 204, 42%, 75%;
     --card-foreground: 222.2 84% 4.9%;
  
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
  
     --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --primary-sky: 216.24deg 89.95% 57.06%;
+    --primary-foreground: 204 42% 75%;
+    /* --primary-sky: 216.24deg 89.95% 57.06% ; */
+    --primary-sky: 204 42% 75%;
  
-    --secondary: 210 40% 96.1%;
+    --secondary: 0, 60%, 45%;
     --secondary-foreground: 222.2 47.4% 11.2%;
  
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted-foreground: 204 42% 75%;
  
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
@@ -92,7 +93,7 @@
     display: block;
     width: 2rem;
     height: .3rem;
-    background-color: hsl(var(--primary-sky));
+    background-color: #6C7A89;
     margin-bottom: 2rem;
 }
 .education_point::before{

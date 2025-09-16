@@ -23,21 +23,25 @@ interface ProjectCardProps {
 
 const ProjectCards: React.FC<ProjectCardProps> = ({ value, num }) => {
   return (
-    <FramerWrapper 
-      className="max-w-[32%] max-lg:max-w-full" 
-      y={0} 
-      scale={0.8} 
-      delay={num/4} 
+    <FramerWrapper
+      className="max-w-[32%] max-lg:max-w-full"
+      y={0}
+      scale={0.8}
+      delay={num / 4}
       duration={0.15}
     >
       <Card className="w-full h-full flex flex-col hover:shadow-lg transition-all duration-300 border-2">
         <CardHeader className="pb-2">
-          <CardTitle className="text-xl font-bold text-primary">{value.title}</CardTitle>
+          <CardTitle className="text-xl font-bold text-primary">
+            {value.title}
+          </CardTitle>
         </CardHeader>
-        
+
         <CardContent className="flex-grow flex flex-col gap-4">
-          <p className="text-sm text-muted-foreground leading-relaxed">{value.description}</p>
-          
+          <p className="text-sm text-muted-foreground leading-relaxed text-white">
+            {value.description}
+          </p>
+
           <div className="flex flex-wrap gap-2">
             {value.tags.map((tag: string, index: number) => {
               const tagStyles =
@@ -63,11 +67,11 @@ const ProjectCards: React.FC<ProjectCardProps> = ({ value, num }) => {
                   Turborepo: "bg-blue-100 text-red-800",
                   tRPC: "bg-purple-100 text-purple-800",
                   Fumadocs: "bg-cyan-100 text-cyan-800",
-                  "Better-Auth": "bg-white-100 text-black-800",
+                  "Better-Auth": "bg-gray-100 text-black-800",
                 }[tag] || "bg-gray-100 text-gray-800";
 
               return (
-                <span 
+                <span
                   key={index}
                   className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${tagStyles}`}
                 >
@@ -84,14 +88,14 @@ const ProjectCards: React.FC<ProjectCardProps> = ({ value, num }) => {
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              buttonVariants({ 
-                variant: "default", 
-                size: "sm" 
+              buttonVariants({
+                variant: "default",
+                size: "sm",
               }),
               "w-fit transition-all hover:translate-y-[-2px] hover:shadow-md group"
             )}
           >
-            Visit Project 
+            Visit Project
             <ArrowUpRight className="h-4 w-4 ml-1 hidden group-hover:block -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
           </Link>
         </CardFooter>
