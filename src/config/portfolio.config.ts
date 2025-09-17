@@ -203,7 +203,7 @@ export const portfolioConfig = {
       degree: "Bachelor of Software Engineering",
       institution: "Can Tho University (CTU)",
       location: "Can Tho City, Vietnam",
-      period: "2023 – 2026",
+      period: "2023 – 2027",
       description:
         "I'm currently pursuing a Bachelor's degree in Software Engineering at Can Tho University, a leading public university in Vietnam. The program provides me with a strong foundation in software development, system design, and modern web technologies — empowering me to build scalable, user-centric digital solutions with creativity and precision.",
     },
