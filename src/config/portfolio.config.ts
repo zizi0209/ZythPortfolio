@@ -164,6 +164,14 @@ export const portfolioConfig = {
         name: "Threejs",
         icon: "/icons/threejs.png", // unofficial
       },
+      {
+        name: "MDX",
+        icon: "/icons/mdx.png", // unofficial
+      },
+      {
+        name: "Fumadocs",
+        icon: "/icons/fumadocs.png", // unofficial
+      },
     ],
     tools: [
       {
@@ -275,7 +283,7 @@ export const portfolioConfig = {
         "Shadcn Ui",
         "Convex",
         "Turborepo",
-        "Clerk"
+        "Clerk",
       ],
       link: "https://gameverse-web.vercel.app/",
     },
