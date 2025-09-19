@@ -284,6 +284,7 @@ export const portfolioConfig = {
         "Convex",
         "Turborepo",
         "Clerk",
+        "Fumadocs",
       ],
       link: "https://gameverse-web.vercel.app/",
     },
