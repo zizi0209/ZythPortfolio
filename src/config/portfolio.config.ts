@@ -255,6 +255,7 @@ export const portfolioConfig = {
         "MongoDB",
         "Better-Auth",
         "Turborepo",
+        "MDX",
       ],
       link: "https://shopdolot-web.vercel.app/",
     },
