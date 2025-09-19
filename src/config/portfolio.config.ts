@@ -264,6 +264,21 @@ export const portfolioConfig = {
       ],
       link: "https://inslen-web.vercel.app/",
     },
+    {
+      title: "GamesVerse — Unblocked games, open-source fun.",
+      description:
+        "GamesVerse là một không gian trực tuyến đơn giản, nơi người dùng có thể khám phá và chơi các trò chơi không bị chặn. Được xây dựng với tư duy mã nguồn mở, nền tảng này mang đến trải nghiệm chơi game dễ tiếp cận, không rào cản — lý tưởng cho những ai muốn thư giãn nhanh chóng mà không cần cài đặt hay đăng ký.",
+      tags: [
+        "Nextjs",
+        "Typescript",
+        "Tailwind CSS",
+        "Shadcn Ui",
+        "Convex",
+        "Turborepo",
+        "Clerk"
+      ],
+      link: "https://gameverse-web.vercel.app/",
+    },
   ],
 
   // More Links Information
