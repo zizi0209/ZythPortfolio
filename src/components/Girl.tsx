@@ -164,8 +164,8 @@ export default function Girl({
           0.15
         );
 
-      CustomWiggle.create("myWiggle", { wiggles: 6, type: "ease-out" });
-      CustomWiggle.create("lessWiggle", { wiggles: 4, type: "ease-in-out" });
+      CustomWiggle.create("myWiggle", { wiggles: 6, type: "easeOut" });
+      CustomWiggle.create("lessWiggle", { wiggles: 4, type: "easeInOut" });
 
       let height = 0,
         width = 0,
