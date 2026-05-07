@@ -242,22 +242,19 @@ export const portfolioConfig = {
       link: "https://zizi0209.github.io/phuongvietit/",
     },
     {
-      title: "Shopdolot — Soft on skin, sexy within.",
+      title: "MyLingerieShop — Redefining online shopping with AI Virtual Try-On.",
       description:
-        "Shopdolot is a modern fashion e-commerce platform offering curated lingerie and loungewear for every mood and moment. With a minimal aesthetic and smooth user experience, it blends style, comfort, and confidence into every scroll.",
+        "MyLingerieShop is a modern fashion e-commerce platform featuring a Virtual Try-On (VTON) system that allows users to visualize products on themselves digitally. Developed as a foundational academic project, it focuses on bridging the gap between digital browsing and real-life fit, enhancing confidence in every purchase.",
       tags: [
         "Nextjs",
         "Typescript",
         "Tailwind CSS",
         "Shadcn Ui",
-        "Hono",
-        "tRPC",
-        "MongoDB",
-        "Better-Auth",
-        "Turborepo",
+        "Railway",
         "MDX",
+        "VTON", // Thêm tag này để làm nổi bật công nghệ
       ],
-      link: "https://shopdolot-web.vercel.app/",
+      link: "https://my-lingerie-shop.vercel.app/",
     },
     {
       title: "Inslen — Handmade knits, crafted with love.",
@@ -289,6 +286,62 @@ export const portfolioConfig = {
       ],
       link: "https://gameverse-web.vercel.app/",
     },
+    {
+    title: "CTUni — A centralized academic hub for Can Tho University students.",
+    description:
+      "CTUni is a high-performance student support platform designed to streamline academic management at CTU. Featuring a data-rich dashboard, it allows students to visualize GPA/CPA trends, track credit progress, and manage deadlines with ease. Built with Next.js and Convex, the app delivers a seamless, real-time experience to help students stay organized and focused on their educational goals.",
+    tags: [
+      "Nextjs",
+      "Typescript",
+      "Tailwind CSS",
+      "Shadcn Ui",
+      "Convex",
+      "Recharts", // Thêm nếu bạn dùng thư viện này để vẽ biểu đồ GPA
+    ],
+    link: "https://ctuni.vercel.app/",
+  },
+  {
+    title: "PokiPop — A premium digital marketplace for Pokémon TCG Pocket collectors.",
+    description:
+      "PokiPop is a specialized e-commerce platform dedicated to the Pokémon TCG Pocket universe. Designed for 'Rare Hunters,' the site features a sleek, dark-themed 'Vault' where users can discover and acquire rare digital card collectibles. With a focus on high-end aesthetics and a seamless browsing experience, it transforms digital asset trading into a premium collecting journey.",
+    tags: [
+      "Nextjs",
+      "Typescript",
+      "Tailwind CSS",
+      "Framer Motion", // Nhìn UI này rất giống có dùng Framer Motion để tạo hiệu ứng mượt mà
+      "Shadcn Ui",
+      "Lucide Icons",
+    ],
+    link: "https://pokipop.vercel.app/",
+  },
+  {
+    title: "Digital Bookshelf 3D — An immersive literary hub for Tsukizoe and his community.",
+    description:
+      "Digital Bookshelf 3D is a specialized publishing platform dedicated to the literary works of Tsukizoe (Zoe). It offers an immersive, spatial environment for readers to explore and engage with online books in a modern digital format. Beyond a library, the site serves as a collaborative sandbox where readers can contribute their own digital ideas, fostering a unique, interactive connection between the author and the audience.",
+    tags: [
+      "Nextjs",
+      "Typescript",
+      "Three.js", // Giả định dựa trên tên "3D" của dự án
+      "React Three Fiber",
+      "Tailwind CSS",
+      "Shadcn Ui",
+    ],
+    link: "https://digital-bookshelf-3d.vercel.app/",
+  },
+  {
+    title: "MajorDiscover VN — A data-driven career orientation and academic guidance platform.",
+    description:
+      "MajorDiscover VN is a comprehensive educational ecosystem designed to help students navigate their future career paths. By integrating personality assessments and interest-based profiling, the platform recommends suitable exam blocks and majors tailored to each individual. It features a robust database of university admission scores and regional job market insights across Vietnam. With specialized psychometric tests for various industry sectors, the app empowers students to make informed, data-backed decisions for their academic and professional journey.",
+    tags: [
+      "Nextjs",
+      "Typescript",
+      "Tailwind CSS",
+      "Shadcn Ui",
+      "Framer Motion",
+      "Data Analytics",
+    ],
+    link: "https://major-discover-vn.vercel.app/",
+  },
   ],
 
   // More Links Information
