@@ -72,7 +72,7 @@ export const portfolioConfig = {
       "Creating cool projects",
     ],
     personalInfo: {
-      language: "Vietmanese",
+      language: "Vietnamese",
       nationality: "Vietnam",
       gender: "Female",
     },
